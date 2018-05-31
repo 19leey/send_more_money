@@ -1,0 +1,6 @@
+# Ignore the following
+*.txt
+.classpath
+.project
+.settings/
+target/
