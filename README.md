@@ -1,6 +1,6 @@
-#Send More Money Puzzle
+# Send More Money Puzzle
 
-###Description
+### Description
 A simple program to generate possible Send-More-Money puzzles.
 Uses the akka actor model to handle and optimze large file manipulation
 
