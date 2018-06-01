@@ -11,8 +11,9 @@ object SMMSupervisor {
 
 
 class SMMSupervisor extends Actor with ActorLogging {
-  private var num = 0
-  private val workers = collection.mutable.Buffer[ActorRef]()
+  private var num = 1
+  private val distributors = collection.mutable.Buffer[ActorRef]()
+  private var words = Iterator[String]()
 
   override def preStart(): Unit = log.info("SMM Application started")
   override def postStop(): Unit = log.info("SMM Application stopped")
@@ -20,15 +21,15 @@ class SMMSupervisor extends Actor with ActorLogging {
   override def receive = {
     case Start =>
       // Collect word data
-      val words = Source.fromFile("smmdata.txt")
-      log.info(words.getLines().size + " element(s) collected")
-      //for(line <- words.getLines())
-        //println(line)
-      words.close()
+      val wordbuff = Source.fromFile("smmdata_test.txt")
+      words = wordbuff.getLines()
+      //log.info(words.size + " element(s) collected")
+      //wordbuff.close()
 
     case Spawn =>
-      for(i <- 1 to 5) {
-        workers += context.actorOf(Props(new SMMWorker(("w_" + num))), ("worker_" + num))
+      for(line <- words) {
+        distributors += context.actorOf(Props(new SMMDistributor(("dist-" + num), line)), ("dist-" + num))
+        distributors(num - 1) ! "bang"
         num += 1
       }
   }
