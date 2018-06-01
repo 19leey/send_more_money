@@ -27,9 +27,9 @@ class SMMSupervisor extends Actor with ActorLogging {
       words.close()
 
     case Spawn =>
-      workers += context.actorOf(Props(new SMMWorker("lol")), "worker_" + num)
-      num += 1
-
+      for(i <- 1 to 5) {
+        workers += context.actorOf(Props(new SMMWorker(("w_" + num))), ("worker_" + num))
+        num += 1
+      }
   }
-
 }
