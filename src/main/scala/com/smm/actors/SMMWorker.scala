@@ -1,6 +1,7 @@
 package com.smm.actors
 
 import akka.actor.{ Actor, ActorLogging, Props }
+import scala.math._
 import com.smm.model.SMMModel._
 
 
@@ -18,6 +19,9 @@ class SMMWorker(workerId: String, query: List[String]) extends Actor with ActorL
 
   override def receive = {
     case _ =>
-      println(query + " " + workerId)
+      if(query(0).length <= query(2).length && query(1).length <= query(2).length) {
+        if(query(0).length >= (query(2).length - 1) && query(1).length >= (query(2).length - 1))
+        println(query + " " + workerId)
+      }
   }
 }
