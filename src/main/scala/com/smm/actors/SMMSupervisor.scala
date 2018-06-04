@@ -29,7 +29,8 @@ class SMMSupervisor extends Actor with ActorLogging {
     case Spawn =>
       for(line <- words) {
         distributors += context.actorOf(Props(new SMMDistributor(("dist-" + num), line)), ("dist-" + num))
-        distributors(num - 1) ! "bang"
+        distributors(num - 1) ! Start
+        distributors(num - 1) ! Work
         num += 1
       }
   }
